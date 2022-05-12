@@ -11,7 +11,7 @@ class Net(torch.nn.Module):
         self.dropout = nn.Dropout(p=0.25)
         self.fc1 = nn.Linear(2048, 1024)
         self.fc2 = nn.Linear(1024, 256)
-        self.fc3 = nn.Linear(in_features=256, out_features= 11)
+        self.fc3 = nn.Linear(in_features=256, out_features= 10)
 
     def forward(self, x):
         x = F.leaky_relu(self.conv(x))
