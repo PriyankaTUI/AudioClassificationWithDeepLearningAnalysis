@@ -1,5 +1,7 @@
 import torch
 import torch.nn as nn
+from torchsummary import summary
+import copy
 
 class VGGNet(nn.Module):
 
@@ -72,7 +74,7 @@ class VGGNet(nn.Module):
       output_features = self.linear.out_features
       
       print("Old Model:")
-      summary(model,input_size=(1,32,32))
+      summary(self,input_size=(1,32,32))
 
       #save fc3 layers weights for initialization step
       old_weights = copy.deepcopy(self.linear.weight.data)  #torch.Size([10, 256])
