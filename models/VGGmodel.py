@@ -80,7 +80,7 @@ class VGGNet(nn.Module):
     logits = self.linear(x)
     return logits
 
-  def addNovelClassesToModel(self, noNovelClasses):
+  def addNovelClassesToModel(self, noNovelClasses, initialization = initialization_class.random):
       #add new novel classes to pre-trained model
       #add new class parameters , here we have added 3 new classes
       input_features = self.linear.in_features
