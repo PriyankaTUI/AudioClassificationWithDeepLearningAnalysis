@@ -3,6 +3,19 @@ import torch.nn as nn
 from torchsummary import summary
 import copy
 
+
+class initialization_class():
+  kaiming_uniform = 'kaiming_uniform' # by default fan_in mode
+  kaiming_normal = 'kaiming_normal'
+  kaiming_uniform_fan_out = 'kaiming_uniform_fan_out'
+  kaiming_normal_fan_out = 'kaiming_normal_fan_out'
+  xavier_uniform = 'xavier_uniform'
+  xavier_normal = 'xavier_normal'
+  random = 'random'
+  zeros = 'zeros'
+  negative = 'negative'
+
+
 class VGGNet(nn.Module):
 
   def __init__(self):
@@ -86,7 +99,24 @@ class VGGNet(nn.Module):
 
       #Initialize new weights with kaiming normal distribution 
       # in paper xaviour is suggested for relu kaiming is recommended
-      nn.init.kaiming_normal_(self.linear.weight, nonlinearity='relu')
+      if initialization == initialization_class.kaiming_uniform:
+        nn.init.kaiming_uniform_(self.linear.weight, nonlinearity='relu')
+      elif initialization == initialization_class.kaiming_normal:
+        nn.init.kaiming_normal_(self.linear.weight, nonlinearity='relu')
+      elif initialization == initialization_class.kaiming_uniform_fan_out:
+        nn.init.kaiming_uniform_(self.linear.weight, mode='fan_out', nonlinearity='relu')
+      elif initialization == initialization_class.kaiming_normal_fan_out:
+        nn.init.kaiming_normal_(self.linear.weight, mode='fan_out', nonlinearity='relu')
+      elif initialization == initialization_class.xavier_uniform:
+        nn.init.xavier_uniform_(self.linear.weight)
+      elif initialization == initialization_class.xavier_normal:
+        nn.init.xavier_normal_(self.linear.weight)
+      elif initialization == initialization_class.xavier_normal:
+        nn.init.xavier_normal_(self.linear.weight)
+      elif initialization == initialization_class.zeros:
+        self.linear.weight.data.fill_(0)
+      elif initialization == initialization_class.negative:
+        self.linear.weight.data.fill_(-1)
       #copy old weights for old paramerter
       self.linear.weight.data[:output_features] = old_weights
 
