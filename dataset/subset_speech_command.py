@@ -13,7 +13,8 @@ class SubsetSC(SPEECHCOMMANDS):
                 subset: str = None, 
                 subset_type : str = None, 
                 novel_class_list:list = [], 
-                dataset_length:int = 0):
+                dataset_length:int = 0,
+                transform = None):
         digits = ['zero','one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'] 
         super().__init__("./dataset/data/", download=True)
         n_fft = 2048
@@ -22,14 +23,16 @@ class SubsetSC(SPEECHCOMMANDS):
         n_mels = 256
         n_mfcc = 256
         sampling_rate = 16000
-        self.transform = torchaudio.transforms.MFCC(sample_rate=sampling_rate, n_mfcc=32, 
-                                                                        melkwargs={
-                                                                                    'n_fft': n_fft,
-                                                                                    'n_mels': n_mels,
-                                                                                    'hop_length': hop_length,
-                                                                                    'mel_scale': 'htk',
-                                                                                    }
-                                                                                    )
+        if transform == None:
+            self.transform = torchaudio.transforms.MFCC(sample_rate=sampling_rate, n_mfcc=32, 
+                                                                            melkwargs={
+                                                                                        'n_fft': n_fft,
+                                                                                        'n_mels': n_mels,
+                                                                                        'hop_length': hop_length,
+                                                                                        'mel_scale': 'htk',
+                                                                                        })
+        else:
+            self.transform = transform
 
         def load_list(filename):
             filepath = os.path.join(self._path, filename)
